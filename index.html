@@ -1,4 +1,213 @@
 <!DOCTYPE html>
+<!-- Custom animated cursor -->
+<style>
+  .toy-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 48px; height: 48px;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.14s cubic-bezier(.22,1,.36,1);
+    will-change: transform;
+    mix-blend-mode: lighten;
+  }
+  .toy-cursor-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 40%, #a5d8ff 70%, #60a5fa 100%);
+    box-shadow:
+      0 0 24px 8px #60a5fa55,
+      0 0 0 4px #a5d8ff88,
+      0 0 0 0 #fff0;
+    filter: blur(1.5px);
+    position: relative;
+    animation: cloud-cursor-bounce 1.6s infinite alternate cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  .toy-cursor-inner::before,
+  .toy-cursor-inner::after {
+    content: '';
+    position: absolute;
+    background: #a5d8ffcc;
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  .toy-cursor-inner::before {
+    width: 22px; height: 22px;
+    left: 8px; top: 18px;
+    opacity: 0.7;
+  }
+  .toy-cursor-inner::after {
+    width: 16px; height: 16px;
+    right: 6px; top: 10px;
+    opacity: 0.5;
+  }
+  @keyframes cloud-cursor-bounce {
+    0% { transform: scale(1) rotate(0deg);}
+    40% { transform: scale(1.08, 0.95) rotate(6deg);}
+    60% { transform: scale(0.98, 1.05) rotate(-6deg);}
+    100% { transform: scale(1.04, 0.96) rotate(4deg);}
+  }
+    position: fixed;
+    top: 0; left: 0;
+    width: 32px; height: 32px;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.12s cubic-bezier(.22,1,.36,1);
+    will-change: transform;
+    mix-blend-mode: lighten;
+  }
+  .toy-cursor-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #60a5fa 70%, #23232a 100%);
+    box-shadow: 0 0 16px 4px #60a5fa88, 0 0 0 2px #23232a;
+    animation: toy-cursor-bounce 1.2s infinite alternate cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  @keyframes toy-cursor-bounce {
+    0% { transform: scale(1) rotate(0deg);}
+    60% { transform: scale(1.08) rotate(8deg);}
+    100% { transform: scale(0.92) rotate(-8deg);}
+  }
+</style>
+<script>
+  // Animated toy cursor
+  (function() {
+    const cursor = document.createElement('div');
+    cursor.className = 'toy-cursor';
+    cursor.innerHTML = '<div class="toy-cursor-inner"></div>';
+    document.body.appendChild(cursor);
+
+    let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    let currentX = mouseX, currentY = mouseY;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      // Smooth follow
+      currentX += (mouseX - currentX) * 0.22;
+      currentY += (mouseY - currentY) * 0.22;
+      cursor.style.transform = `translate3d(${currentX-16}px,${currentY-16}px,0)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Hide default cursor
+    document.body.style.cursor = 'none';
+  })();
+</script>
+
+<style>
+  body {
+    background: #18181b !important;
+    color: #fafafa !important;
+  }
+  .main-content, .sidebar, .about, .resume, .portfolio, .contact, .service, .clients, .timeline, .navbar, .gallery, .cert-item, .contact-form, .form, .form-input, .form-btn {
+    background: transparent !important;
+    color: #fafafa !important;
+  }
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+    background: #23232a !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    padding: 0 0 0 0;
+  }
+  .navbar-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .navbar-link {
+    background: none;
+    border: none;
+    color: #fafafa !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 18px 24px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar-link.active,
+  .navbar-link:hover {
+    background: #27272a !important;
+    color: #60a5fa !important;
+  }
+  .main-content {
+    margin-top: 70px !important;
+  }
+  /* Sidebar and cards */
+  .sidebar, .sidebar-info, .sidebar-info_more, .service-item, .clients-item, .cert-item, .form, .contact-form, .about-text, .timeline-item, .project-item, .modal-container, .testimonials-modal {
+    background: #23232a !important;
+    color: #fafafa !important;
+    border-radius: 12px;
+    border: 1px solid #27272a;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  .service-icon-box, .icon-box {
+    background: #18181b !important;
+    border-radius: 8px;
+  }
+  .form-input, textarea {
+    background: #18181b !important;
+    color: #fafafa !important;
+    border: 1px solid #27272a !important;
+  }
+  .form-btn {
+    background: #27272a !important;
+    color: #fafafa !important;
+    border: none;
+  }
+  .form-btn:hover {
+    background: #60a5fa !important;
+    color: #18181b !important;
+  }
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    background: #23232a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 8px;
+  }
+  /* Fix for certifications gallery */
+  #certifications-gallery {
+    background: #23232a !important;
+    color: #fafafa !important;
+    border: 1px solid #27272a;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  #certifications-gallery h2 {
+    color: #fafafa !important;
+  }
+  .cert-item {
+    background: #18181b !important;
+    border: 1px solid #27272a !important;
+    color: #fafafa !important;
+  }
+  .cert-item p {
+    color: #fafafa !important;
+  }
+  /* Remove duplicate nav style */
+  nav {
+    background: none !important;
+    color: inherit !important;
+    padding: 0 !important;
+    text-align: inherit !important;
+    font-size: inherit !important;
+  }
+</style>
 <html lang="en">
 
 <head>
@@ -167,7 +376,7 @@
       - #main-content
     -->
 
-    <div class="main-content">
+     <div class="main-content">
 
       <!--
         - #NAVBAR
@@ -189,7 +398,10 @@
             <button class="navbar-link" data-nav-link>Portfolio</button>
           </li>
 
-       
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Certifications</button>
+          </li>
+
           <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Contact</button>
           </li>
@@ -197,11 +409,6 @@
         </ul>
 
       </nav>
-
-
-
-
-
       <!--
         - #ABOUT
       -->
@@ -634,7 +841,7 @@
         </section>
         
 
-        <button class="form-btn" type="button" data-form-btn onclick="window.open('cv/Resume.pdf')">
+        <button class="form-btn" type="button" data-form-btn onclick="window.open('CV/Resume.pdf')">
           <ion-icon name="document-text-outline"></ion-icon>
           <span>Download CV</span>
         </button>
@@ -1040,80 +1247,95 @@
       </article>
 
 
-      <!--
-        - #BLOG
+<!--
+        - #CERTIFICATIONS
       -->
+<article class="certifications" data-page="certifications">
+  <section id="certifications-gallery">
+    <h2>My Certifications</h2>
+    <div class="gallery">
+      <div class="cert-item">
+        <img src="certs/cert1.jpg" alt="Certification 1">
+        <p>Google ads for beginners</p>
+      </div>
+      <div class="cert-item">
+        <img src="certs/cert2.png" alt="Certification 2">
+        <p>2024 web Development bootcamp</p>
+      </div>
+      <div class="cert-item">
+        <img src="certs/cert3.png" alt="Certification 3">
+        <p>full stact web development</p>
+      </div>
+      <div class="cert-item">
+        <img src="certs/cert4.png" alt="Certification 4">
+        <p>National level Generative AI Workshop</p>
+      </div>
+      <div class="cert-item">
+        <img src="certs/cert5.png" alt="Certification 5">
+        <p>Network Technician at CISCO</p>
+      </div>
+      <div class="cert-item">
+        <img src="certs/cert6.png" alt="Certification 6">
+        <p>JAVA course from MINDSPARC</p>
+    
+      <!-- Add more certifications as needed -->
+    </div>
+  </section>
+</article>
+<style>
+/* Only keep the dark theme for certifications to match the rest of the site */
+#certifications-gallery {
+  padding: 20px;
+  background: #18181b;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  margin: 32px auto;
+  max-width: 900px;
+}
+#certifications-gallery h2 {
+  text-align: center;
+  color: #fff;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.cert-item {
+  background: #23232a;
+  border: 1px solid #27272a;
+  padding: 16px;
+  width: 220px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cert-item:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.cert-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  background: #18181b;
+}
+.cert-item p {
+  color: #fafafa;
+  font-weight: 500;
+  margin: 0;
+}
+</style>
 
-      <article class="blog" data-page="blog">
-
-        <header>
-          <h2 class="h2 article-title">Blog</h2>
-        </header>
-
-        <section class="blog-posts">
-
-          <ul class="blog-posts-list">
-            <li class="blog-post-item">
-              <a href="https://aakash58.hashnode.dev/flutter-vs-flock-exploring-the-new-fork-in-cross-platform-development" target="_blank">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/blogs/blog-2.png" alt="Flutter vs. Flock: Cross-Platform Evaluation" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Blog</p>
-                    <span class="dot"></span>
-                    <time datetime="2024-11-18">Nov 18, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Flutter vs. Flock: Cross-Platform Evaluation </h3>
-
-                  <p class="blog-text" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">
-                    Explore the differences between Flutter and Flock, a new fork focused on faster development and community-driven cross-platform app creation </p>
-                </div>
-
-              </a>
-            </li>
-
-
-            <li class="blog-post-item">
-              <a href="https://aakash58.hashnode.dev/the-future-of-cross-platform-apps-flutters-role-in-2024-and-beyond" target="_blank">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/blogs/blog-1.png" alt="Flutter's Impact on Future Cross-Platform Apps" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Blog</p>
-                    <span class="dot"></span>
-                    <time datetime="2024-11-13">Nov 13, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Flutter's Impact on Future Cross-Platform Apps </h3>
-
-                  <p class="blog-text" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">
-                    Explore Flutter's growing influence on cross-platform app development in 2024 and its future potential across mobile, web, and IoT devices </p>
-                </div>
-
-              </a>
-            </li>
-
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-      <!--
+<!--
         - #CONTACT
       -->
 
-      <article class="contact" data-page="contact">
+<article class="contact" data-page="contact">
 
         <header>
           <h2 class="h2 article-title">Contact</h2>
